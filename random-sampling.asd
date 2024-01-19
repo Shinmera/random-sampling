@@ -8,7 +8,9 @@
   :source-control (:git "https://github.com/Shinmera/random-sampling.git")
   :serial T
   :components ((:file "package")
-               (:file "random-sampling")
+               (:file "toolkit")
+               (:file "volumes")
+               (:file "distributions")
                (:file "documentation"))
   :depends-on (:documentation-utils
                :random-state
