@@ -1,4 +1,4 @@
 (defpackage #:org.shirakumo.random-sampling
-  (:use #:cl #:3d-math)
+  (:use #:cl #:org.shirakumo.fraf.math)
   (:shadowing-import-from #:org.shirakumo.random-state #:random)
   (:export))
