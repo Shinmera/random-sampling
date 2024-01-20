@@ -111,7 +111,7 @@
                     do (when (<= s sample) (return sample))))
              (T
               (loop for u = (r)
-                    for v = (nonzero)
+                    for v = (!r 0.0)
                     for sample = (sqrt (- (* s s) (* 2 (log v))))
                     do (when (<= (* sample u) s) (return sample))))))))
 
@@ -141,9 +141,7 @@
 ;; TODO: exponential power
 
 (define-distribution-function cauchy (a)
-  (loop for u = (r)
-        do (when (/= u 0.5)
-             (return (* a (tan (* F-PI u)))))))
+  (* a (tan (* F-PI (!r 0.5)))))
 
 (define-probability-density-function cauchy (x a)
   (/ (/ (* F-PI a)) (1+ (expt (/ x a) 2))))
@@ -185,7 +183,7 @@
   (if (= 0 beta)
       (levy c alpha)
       (let ((v (* F-PI (- (r) 0.5)))
-            (w (nonzero)))
+            (w (!r 0.0)))
         (if (= 1 alpha)
             (let ((tmp (+ F-PI/2 (* beta v))))
               (* c (/ (+ (- (* (tan v) tmp)
@@ -222,7 +220,7 @@
                    0.0
                    (loop with p = (/ F-E (+ a F-E))
                          for u = (r)
-                         for v = (nonzero)
+                         for v = (!r 0.0)
                          for x = (if (< u p)
                                      (exp (* (/ a) (log v)))
                                      (- 1 (log v)))
@@ -319,8 +317,8 @@
 
 (define-distribution-function beta (a b)
   (if (and (<= a 1.0) (<= b 1.0))
-      (loop for u = (nonzero)
-            for v = (nonzero)
+      (loop for u = (!r 0.0)
+            for v = (!r 0.0)
             for x = (expt u (/ a))
             for y = (expt v (/ a))
             do (when (<= (+ x y) 1.0)

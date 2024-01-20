@@ -44,8 +44,8 @@
 (define-volume-function sphere (sample &optional (radius 1.0))
   ;; This rectified method is faster than rejection sampling a sphere
   (labels ((randn ()
-             (* (sqrt (* -2.0 (log (nonzero))))
-                (cos (* F-2PI (nonzero))))))
+             (* (sqrt (* -2.0 (log (!r 0.0))))
+                (cos (* F-2PI (!r 0.0))))))
     (vsetf sample (randn) (randn) (randn))
     (nv* sample (* (/ (vlength sample)) (expt (r) 1/3)))
     (nv* sample radius)))

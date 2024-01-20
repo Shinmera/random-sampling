@@ -19,10 +19,10 @@
         random-state:*generator*
         0f0 (float ,s 0f0))))
 
-(declaim (inline nonzero))
-(defun nonzero ()
+(declaim (inline !r))
+(defun !r (not)
   (loop for sample = (r)
-        when (< 0.0 sample) return sample))
+        when (/= not sample) return sample))
 
 (defun unlist (a)
   (if (listp a) (first a) a))
