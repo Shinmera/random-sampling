@@ -11,6 +11,7 @@
                (:file "toolkit")
                (:file "volumes")
                (:file "distributions")
+               (:file "quasi")
                (:file "documentation"))
   :depends-on (:alexandria
                :documentation-utils
