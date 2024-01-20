@@ -12,6 +12,7 @@
                (:file "volumes")
                (:file "distributions")
                (:file "quasi")
+               (:file "sobol")
                (:file "documentation"))
   :depends-on (:alexandria
                :documentation-utils
