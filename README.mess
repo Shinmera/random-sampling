@@ -1,0 +1,5 @@
+# About Random-Sampling
+This library provides additional functions used in statistics or random generation. It provides a variety of distribution functions to provide a biased random number generation, generators for random numbers on 3D volumes, and quasi-random number sequence generators.
+
+## How To
+
