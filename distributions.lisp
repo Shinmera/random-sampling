@@ -43,8 +43,25 @@
          (declare (type single-float ,(first args)))
          ,@body))))
 
-(defun erfc (x)
-  )
+(defmacro %poly (&rest facs)
+  (if facs
+      (destructuring-bind (x &optional s &rest facs) facs
+        (if s
+            `(+ ,x (* ,s (%poly ,@facs)))
+            x))
+      1.0))
+
+;; See Numerical Recipes, 6.2
+(defun erf (z)
+  ;; FIXME: This behaves pretty bad when Z is close to zero, but whatever.
+  (let* ((x (/ (1+ (* 0.5 (abs z)))))
+         (p (%poly +1.26551223 x 1.00002368 x  0.37409196 x 0.09678418 x
+                   -0.18628806 x 0.27886807 x -1.13520398 x 1.48851587 x
+                   -0.82215223 x 0.17087277)))
+    (abs (- 1 (* x (exp (- (* (- z) z) p)))))))
+
+(defun erfc (z)
+  (- 1 (erf z)))
 
 (defun lnchoose (n m)
   (assert (< n m))
