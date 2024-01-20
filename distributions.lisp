@@ -41,7 +41,13 @@
        (declaim (ftype (function (single-float ,@(loop for arg in (rest args) collect (if (find arg lambda-list-keywords) arg 'real))) single-float) ,pdf))
        (defun ,pdf (,@args ,@(unless (find '&optional args) '(&optional)))
          (declare (type single-float ,(first args)))
-         ,@body))))
+         ,@body)
+
+       (setf (get ',name 'pdf) #',pdf))))
+
+(defun pdf (distribution &optional (errorp T))
+  (or (get distribution 'pdf)
+      (when errorp (error "No PDF for ~s is known." distribution))))
 
 (defmacro %poly (&rest facs)
   (if facs

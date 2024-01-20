@@ -2,6 +2,12 @@
 
 ;; distributions.lisp
 (docs:define-docs
+  (function pdf
+    "Returns the probability density function for the given distribution.
+
+The distribution must be given as a name. If no PDF exists, and errorp
+is true, an error is signalled.")
+
   (function gaussian
     "")
   
