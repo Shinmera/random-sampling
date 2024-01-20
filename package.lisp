@@ -57,8 +57,6 @@
    #:geometric-pdf
    #:logarithmic
    #:logarithmic-pdf)
-  ;; quasi.lisp
-  (:export)
   ;; volumes.lisp
   (:export
    #:rejection-sample

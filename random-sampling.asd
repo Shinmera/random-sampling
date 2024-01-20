@@ -11,9 +11,6 @@
                (:file "toolkit")
                (:file "volumes")
                (:file "distributions")
-               (:file "poisson")
-               (:file "sobol")
-               (:file "hammersley")
                (:file "documentation"))
   :depends-on (:alexandria
                :documentation-utils
