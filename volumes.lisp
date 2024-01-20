@@ -1,6 +1,6 @@
 (in-package #:org.shirakumo.random-sampling)
 
-(defun map-samples (result sample-1)
+(defun map-volume-samples (result sample-1)
   (declare (optimize speed))
   (declare (type (function (T) T) sample-1))
   (etypecase result
@@ -35,7 +35,7 @@
                   ,@body
                   ,(first args)))
          (declare (dynamic-extent #'sample-1))
-         (map-samples ,result #'sample-1)))))
+         (map-volume-samples ,result #'sample-1)))))
 
 (define-volume-function rejection-sample (sample generator predicate)
   (loop do (funcall generator sample)
@@ -43,14 +43,11 @@
 
 (define-volume-function sphere (sample &optional (radius 1.0))
   ;; This rectified method is faster than rejection sampling a sphere
-  (labels ((nonzero ()
-             (loop for sample = (random 1.0)
-                   when (< 0.0 sample) return sample))
-           (randn ()
+  (labels ((randn ()
              (* (sqrt (* -2.0 (log (nonzero))))
-                (cos (* 2.0 PI (nonzero))))))
+                (cos (* F-2PI (nonzero))))))
     (vsetf sample (randn) (randn) (randn))
-    (nv* sample (* (/ (vlength sample)) (expt (random 1.0) 1/3)))
+    (nv* sample (* (/ (vlength sample)) (expt (r) 1/3)))
     (nv* sample radius)))
 
 (define-volume-function half-sphere (sample &optional (normal +vy+) (radius 1.0))
@@ -62,8 +59,8 @@
 
 (define-volume-function normal (sample &optional (radius 1.0))
   ;; Rectified polar coordinates for the surface with a fixed radius
-  (let* ((lat (- (acos (1- (* 2 (random 1.0)))) (* 0.5 PI)))
-         (lng (* 2 PI (random 1.0)))
+  (let* ((lat (- (acos (1- (* 2 (r)))) F-PI/2))
+         (lng (* F-2PI (r)))
          (clat (cos lat)) (clng (cos lng))
          (slat (sin lat)) (slng (sin lng)))
     (vsetf sample
@@ -73,8 +70,8 @@
 
 (define-volume-function disc (sample &optional (radius 1.0) (normal +vy+))
   ;; Radius needs to be rectified to avoid clustering at the center
-  (let ((r (* radius (sqrt (random 1.0))))
-        (phi (random (* 2 PI))))
+  (let ((r (* radius (sqrt (r))))
+        (phi (r F-2PI)))
     (vsetf sample (* r (cos phi)) 0 (* r (sin phi)))
     (align-sample sample normal)))
 
@@ -85,15 +82,15 @@
 (define-volume-function cylinder (sample radius height &optional (normal +vy+))
   ;; The height is independent, so we can just move the disc
   (disc radius +vy+ sample)
-  (setf (vy sample) (1- (random (* 2.0 height))))
+  (setf (vy sample) (1- (r (* 2.0 height))))
   (align-sample sample normal))
 
 (define-volume-function pill (sample radius height &optional (normal +vy+))
   ;; Pick randomly between cylinder and sphere based on volume
   (let* ((r2 (* radius radius))
-         (cylinder-volume (* PI height r2))
-         (sphere-volume (* 4/3 PI r2)))
-    (if (< (random (+ cylinder-volume sphere-volume)) cylinder-volume)
+         (cylinder-volume (* F-PI height r2))
+         (sphere-volume (* 4/3 F-PI r2)))
+    (if (< (r (+ cylinder-volume sphere-volume)) cylinder-volume)
         (cylinder radius height sample)
         (let ((sample (sphere radius sample)))
           ;; Offset sphere to corresponding cap
@@ -104,8 +101,8 @@
 
 (define-volume-function triangle (sample p0 p1 p2)
   ;; Barycentric coordinate interpolation
-  (let ((f (random 1.0))
-        (g (random 1.0)))
+  (let ((f (r))
+        (g (r)))
     (when (< 1.0 (+ f g))
       (setf f (- 1.0 f) g (- 1.0 g)))
     (let ((ba (v- p1 p0))

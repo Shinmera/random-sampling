@@ -12,7 +12,8 @@
                (:file "volumes")
                (:file "distributions")
                (:file "documentation"))
-  :depends-on (:documentation-utils
+  :depends-on (:alexandria
+               :documentation-utils
                :random-state
                :3d-math)
   :in-order-to ((asdf:test-op (asdf:test-op :random-sampling-test))))
