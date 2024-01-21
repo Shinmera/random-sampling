@@ -15,4 +15,17 @@
   :depends-on (:documentation-utils
                :random-state
                :3d-math)
-  :in-order-to ((asdf:test-op (asdf:test-op :random-sampling-test))))
+  :in-order-to ((asdf:test-op (asdf:test-op :random-sampling/test))))
+
+(asdf:defsystem random-sampling/test
+  :version "0.0.0"
+  :author "Yukari Hafner <shinmera@tymoon.eu>"
+  :license "zlib"
+  :description "Tests for the random-sampling system"
+  :homepage "https://Shinmera.github.io/random-sampling/"
+  :bug-tracker "https://github.com/Shinmera/random-sampling/issues"
+  :source-control (:git "https://github.com/Shinmera/random-sampling.git")
+  :serial T
+  :components ((:file "test"))
+  :depends-on (:random-sampling :parachute)
+  :perform (asdf:test-op (op c) (uiop:symbol-call :parachute :test :org.shirakumo.random-sampling.test)))
