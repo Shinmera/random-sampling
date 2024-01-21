@@ -95,8 +95,9 @@
     (let ((ag 0.99999999999980993227684700473478d0))
       (loop for i from 1 below 8
             do (incf ag (/ (aref factors i) (+ x i))))
-      (+ (* (+ x 0.5) (log (/ (+ x 7.5) F-E)))
-         (- (+ (log (sqrt F-2PI)) (log ag)) 7.0)))))
+      (float (+ (* (+ x 0.5) (log (/ (+ x 7.5) F-E)))
+                (- (+ (log (sqrt F-2PI)) (log ag)) 7.0))
+             0f0))))
 
 (define-distribution-function gaussian (&optional (sigma 1.0))
   (loop for x = (1- (r 2.0))
