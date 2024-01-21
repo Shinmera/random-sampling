@@ -39,7 +39,7 @@
   (let ((pdf (intern (format NIL "~a-~a" name 'pdf))))
     `(progn
        (declaim (ftype (function (single-float ,@(loop for arg in (rest args) collect (if (find arg lambda-list-keywords) arg 'real))) single-float) ,pdf))
-       (defun ,pdf (,@args ,@(unless (find '&optional args) '(&optional)))
+       (defun ,pdf (,@args)
          (declare (type single-float ,(first args)))
          ,@body)
 

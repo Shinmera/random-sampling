@@ -5,6 +5,7 @@
    (#:random-state #:org.shirakumo.random-state))
   ;; distributions.lisp
   (:export
+   #:map-samples
    #:pdf
    #:gaussian
    #:gaussian-pdf
@@ -54,7 +55,7 @@
    #:binomial-pdf
    #:-binomial
    #:-binomial-pdf
-   #:gemoetric
+   #:geometric
    #:geometric-pdf
    #:logarithmic
    #:logarithmic-pdf)

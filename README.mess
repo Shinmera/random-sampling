@@ -5,3 +5,47 @@ This library provides additional functions used in statistics or random generati
 This library relies on ''random-state''(https://github.com/shinmera/random-state) for uniform random number generation. As such, you can pick from a variety of underlying sources of randomness to drive the other algorithms in this library. For multivariate distributions such as over volumes, it relies on the ''3d-math''(https://github.com/shinmera/3d-math) library for vector and matrix representation.
 
 To generate samples, simply invoke one of the various functions exposed by this library. To influence the underlying random source, set or bind the ``org.shirakumo.random-state:*generator*``.
+
+Sampling for the following volume types is available:
+
+- ``box``
+- ``convex-mesh``
+- ``cylinder``
+- ``disc``
+- ``half-sphere``
+- ``normal``
+- ``pill``
+- ``sphere``
+- ``triangle``
+
+The following distribution functions are available:
+
+- ``bernoulli``
+- ``beta``
+- ``binomial``
+- ``-binomial``
+- ``cauchy``
+- ``chi-squared``
+- ``exponential``
+- ``fdist``
+- ``flat``
+- ``gamma``
+- ``gaussian-tail``
+- ``gaussian``
+- ``geometric``
+- ``gumbel-1``
+- ``gumbel-2``
+- ``laplace``
+- ``levy-skew``
+- ``levy``
+- ``logarithmic``
+- ``logistic``
+- ``lognormal``
+- ``pareto``
+- ``poisson``
+- ``rayleigh-tail``
+- ``rayleigh``
+- ``tdist``
+- ``weibull``
+
+Most distributions also have their probility density function available. You can retrieve it via the ``pdf`` function.
