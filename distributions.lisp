@@ -138,9 +138,9 @@
 (define-distribution-function laplace (a)
   (loop for u = (1- (r 2.0))
         do (cond ((< u 0)
-                  (* (+ a) (log u)))
+                  (return (* (+ a) (log u))))
                  ((< 0 u)
-                  (* (- a) (log u))))))
+                  (return (* (- a) (log u)))))))
 
 (define-probability-density-function laplace (x a)
   (* (/ (* 2 a)) (exp (/ (- (abs x)) a))))
@@ -214,11 +214,13 @@
           finally (return x))))
 
 (defun gamma-int (a)
-  (if (< a 12)
-      (- (log (loop repeat a
-                    for prod = 1 then (* prod (r))
-                    finally (return prod))))
-      (gamma-large (float a 0f0))))
+  (float
+   (if (< a 12)
+       (- (log (let ((prod 1d0))
+                 (dotimes (i a prod)
+                   (setf prod (* prod (r)))))))
+       (gamma-large (float a 0f0)))
+   0f0))
 
 (define-distribution-function gamma (a &optional (b 1.0))
   (let ((na (floor a)))
@@ -403,9 +405,8 @@
 ;; TODO: dirichlet
 
 (define-distribution-function poisson (mu)
-  (let ((prod 1.0)
-        (k 0))
-    (loop while (< mu 10)
+  (let ((k 0))
+    (loop while (< 10 mu)
           for m = (floor (* mu (/ 7.0 8.0)))
           for x = (gamma-int m)
           do (if (<= mu x)
@@ -413,8 +414,8 @@
                  (setf k (+ k m)
                        mu (- mu x))))
     (let ((emu (exp (- mu))))
-      (loop do (setf prod (* prod (r)))
-               (incf k)
+      (loop for prod = 1.0 then (* prod (r))
+            do (incf k)
             while (< emu prod))
       (float (1- k) 0f0))))
 
@@ -441,8 +442,8 @@
                  (setf k (+ k a)
                        n (1- b)
                        p (/ (- p x) (- 1 x)))))
-    (dotimes (i n k)
-      (if (< (r) p) (incf k)))))
+    (dotimes (i (truncate n) (float k 0f0))
+      (when (< (r) p) (incf k)))))
 
 (define-probability-density-function binomial (x p n)
   (if (< n x)
