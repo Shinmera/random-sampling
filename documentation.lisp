@@ -455,7 +455,8 @@ See MAP-VOLUME-SAMPLES")
 VERTICES must be a (SIMPLE-ARRAY SINGLE-FLOAT (*)) that contains the
 packed representation of the vertex coordinates.
 FACES must be a (SIMPLE-ARRAY (UNSIGNED-BYTE 16) (*)) that contains
-the packed indices of the vertices that compose the faces.
+the packed indices of the vertices that compose the faces. The
+vertices of each face must occur in counter-clockwise order.
 Both arrays must have a length that is a multiple of 3.
 
 The consequences are undefined if the mesh described by VERTICES and

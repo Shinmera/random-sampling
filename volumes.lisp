@@ -109,4 +109,44 @@
       (nv+* (v+* (v<- sample p0) ba f) ca g))))
 
 (define-volume-function convex-mesh (sample vertices faces)
-  )
+  (declare (optimize speed (safety 1)))
+  (check-type vertices (simple-array single-float (*)))
+  (check-type faces (simple-array (unsigned-byte 16) (*)))
+  (let ((v0 (vec3)) (v1 (vec3)) (v2 (vec3)) (n (vec3))
+        (min (vec3)) (max (vec3)))
+    (declare (dynamic-extent v0 v1 v2 n min max))
+    (declare (type (simple-array single-float (*)) vertices))
+    (declare (type (simple-array (unsigned-byte 16) (*)) faces))
+    (declare (type vec3 sample))
+    (labels ((v (i v)
+               ;; Read out a vertex
+               (let ((varr (varr3 v))
+                     (i (* 3 i)))
+                 (setf (aref varr 0) (aref vertices (+ i 0)))
+                 (setf (aref varr 1) (aref vertices (+ i 1)))
+                 (setf (aref varr 2) (aref vertices (+ i 2)))))
+             (check (p)
+               ;; Check if the point is below each triangle plane
+               (loop for f from 0 below (length faces) by 3
+                     do (v (aref faces (+ f 0)) v0)
+                        (v (aref faces (+ f 1)) v1)
+                        (v (aref faces (+ f 2)) v2)
+                        ;; Compute the normal of the plane
+                        (!v- v1 v1 v0)
+                        (!v- v2 v2 v0)
+                        (!vc n v1 v2)
+                        ;; If the dot product is negative, we're below the plane and thus inside
+                        (!v- v0 p v0)
+                     always (<= (v. v0 n) 0.0))))
+      ;; Compute the bounding box
+      (v 0 min) (v 0 max)
+      (loop for i from 0 below (truncate (length vertices) 3)
+            do (v 0 v0)
+               (nvmin min v0)
+               (nvmax max v0))
+      (let* ((bsize (nv* (nv- max min) 0.5))
+             (center (nv+ min bsize)))
+        ;; Produce samples via rejection sampling
+        (loop (!vrand sample center bsize)
+              (when (check sample)
+                (return sample)))))))
