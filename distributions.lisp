@@ -463,6 +463,8 @@
           (* n (log p))
           (* x (log (- 1 p))))))
 
+;; TODO: pascal
+
 (define-distribution-function geometric (p)
   (if (= p 1)
       1.0
@@ -472,6 +474,8 @@
   (cond ((= x 0) 0.0)
         ((= x 1) p)
         (T (* p (expt (- 1 p) (1- x))))))
+
+;; TODO: hypergeometric
 
 (define-distribution-function logarithmic (p)
   (let ((v (r)))
