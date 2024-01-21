@@ -60,6 +60,7 @@
    #:logarithmic-pdf)
   ;; volumes.lisp
   (:export
+   #:map-volume-samples
    #:rejection-sample
    #:sphere
    #:half-sphere

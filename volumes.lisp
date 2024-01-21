@@ -63,10 +63,8 @@
          (lng (* F-2PI (r)))
          (clat (cos lat)) (clng (cos lng))
          (slat (sin lat)) (slng (sin lng)))
-    (vsetf sample
-           (* radius clat clng)
-           (* radius clat slng)
-           (* radius slat))))
+    (vsetf sample (* clat clng) (* clat slng) (* slat))
+    (nv* sample radius)))
 
 (define-volume-function disc (sample &optional (radius 1.0) (normal +vy+))
   ;; Radius needs to be rectified to avoid clustering at the center
