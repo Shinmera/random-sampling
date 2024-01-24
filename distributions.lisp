@@ -1,5 +1,11 @@
 (in-package #:org.shirakumo.random-sampling)
 
+(defstruct (distribution
+            (:constructor NIL)
+            (:predicate NIL)
+            (:include random-state:generator))
+  (source random-state:*generator* :type random-state:generator))
+
 (defun map-samples (result sample-1)
   (declare (optimize speed))
   (declare (type (function () single-float) sample-1))
@@ -36,9 +42,8 @@
              whole
              (list ',sample-1 ,@argvars)))
 
-       (random-state:define-generator ,name 'single-float (random-state:stateful-generator)
-           ((source random-state:*generator* :type random-state:generator)
-            ,@(loop for arg in argvars collect `(,arg 0.0 :type single-float)))
+       (random-state:define-generator ,name 'single-float (distribution (source random-state:*generator*))
+           ,(loop for arg in argvars collect `(,arg 0.0 :type single-float))
          (:reseed
           (random-state:reseed source seed))
          (:next

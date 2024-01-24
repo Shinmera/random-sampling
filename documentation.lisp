@@ -2,6 +2,20 @@
 
 ;; distributions.lisp
 (docs:define-docs
+  (type distribution
+    "Supertype for all distribution generators.
+
+A distribution generator is a random-state generator that uses an
+underlying source generator to obtain random samples, and then biases
+them according to the represented distribution.
+
+To control the source, pass the :SOURCE initarg or bind
+RANDOM-STATE:*GENERATOR* around the constructor. The resulting
+generator will only output SINGLE-FLOAT samples.
+
+See RANDOM-STATE:GENERATOR
+See RANDOM-STATE:*GENERATOR*")
+
   (function map-samples
     "Gathers samples into RESULT, drawing them from SAMPLE-1.
 

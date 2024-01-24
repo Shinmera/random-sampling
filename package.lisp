@@ -5,6 +5,7 @@
    (#:random-state #:org.shirakumo.random-state))
   ;; distributions.lisp
   (:export
+   #:distribution
    #:map-samples
    #:pdf
    #:gaussian
