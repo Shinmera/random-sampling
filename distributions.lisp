@@ -18,7 +18,8 @@
 
 (defmacro define-distribution-function (name args &body body)
   (let ((result (gensym "RESULT"))
-        (sample-1 (intern (format NIL "~a1" name))))
+        (sample-1 (intern (format NIL "~a1" name)))
+        (argvars (loop for arg in args unless (find arg lambda-list-keywords) collect (unlist arg))))
     `(progn
        (declaim (ftype (function ,(loop for arg in args collect (if (find arg lambda-list-keywords) arg 'real)) single-float) ,sample-1))
        (defun ,sample-1 ,args
@@ -33,7 +34,16 @@
        (define-compiler-macro ,name (&whole whole ,@args ,@(unless (find '&optional args) '(&optional)) ,result)
          (if ,result
              whole
-             (list ',sample-1 ,@(loop for arg in args unless (find arg lambda-list-keywords) collect (unlist arg))))))))
+             (list ',sample-1 ,@argvars)))
+
+       (random-state:define-generator ,name 'single-float (random-state:stateful-generator)
+           ((source random-state:*generator* :type random-state:generator)
+            ,@(loop for arg in argvars collect `(,arg 0.0 :type single-float)))
+         (:reseed
+          (random-state:reseed source seed))
+         (:next
+          (let ((random-state:*generator* source))
+            ,@body))))))
 
 (defmacro define-probability-density-function (name args &body body)
   (let ((pdf (intern (format NIL "~a-~a" name 'pdf))))

@@ -48,4 +48,4 @@ The following distribution functions are available:
 - ``tdist``
 - ``weibull``
 
-Most distributions also have their probility density function available. You can retrieve it via the ``pdf`` function.
+Most distributions also have their probility density function available. You can retrieve it via the ``pdf`` function. Every distribution function also has a ``random-state:generator`` of the same name defined. Those generators rely on an underlying generator ``source`` to draw randomness from, and will then turn that into a random float biased according to the distribution.
