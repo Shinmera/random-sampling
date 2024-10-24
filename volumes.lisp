@@ -89,7 +89,7 @@
          (cylinder-volume (* F-PI height r2))
          (sphere-volume (* 4/3 F-PI r2)))
     (if (< (r (+ cylinder-volume sphere-volume)) cylinder-volume)
-        (cylinder radius height sample)
+        (cylinder radius height +vy+ sample)
         (let ((sample (sphere radius sample)))
           ;; Offset sphere to corresponding cap
           (if (<= 0.0 (vy sample))
