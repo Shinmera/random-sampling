@@ -66,6 +66,19 @@
     (vsetf sample (* clat clng) (* clat slng) (* slat))
     (nv* sample radius)))
 
+(define-volume-function surface-normal (sample &optional (normal +vy+) (theta F-PI))
+  ;; Generate a half-sphere normal
+  (normal 1.0 sample)
+  (when (< (vy sample) 0.0)
+    (setf (vy sample) (- (vy sample))))
+  ;; Constrain the direction further by scaling in the plane
+  (let ((scale (/ theta F-PI)))
+    (setf (vx sample) (* (vx sample) scale))
+    (setf (vz sample) (* (vz sample) scale))
+    (nvunit sample))
+  ;; Realign the sample
+  (align-sample sample normal))
+
 (define-volume-function disc (sample &optional (radius 1.0) (normal +vy+))
   ;; Radius needs to be rectified to avoid clustering at the center
   (let ((r (* radius (sqrt (r))))

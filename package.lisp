@@ -67,6 +67,7 @@
    #:sphere
    #:half-sphere
    #:normal
+   #:surface-normal
    #:disc
    #:box
    #:cylinder

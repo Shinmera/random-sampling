@@ -416,6 +416,17 @@ RADIUS may either be a real of the radius, or a VEC3 to generate an
 ellipsoid.
 
 See MAP-VOLUME-SAMPLES")
+
+  (function surface-normal
+    "Samples a normal vector on a surface.
+
+This is equivalent to sampling the surface of a half-sphere
+
+NORMAL may be a normalised vector pointing in the UP direction of the
+half-sphere. THETA may be the angle to which the sample is constrained
+along the NORMAL.
+
+See MAP-VOLUME-SAMPLES")
   
   (function disc
     "Samples a uniform disc.
