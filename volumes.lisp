@@ -88,7 +88,7 @@
 
 (define-volume-function box (sample bsize)
   ;; All axes are independent, so we just randomise a vec3
-  (!vrand sample 0.0 bsize))
+  (nv* (!vrand sample 0.0 bsize) 2))
 
 (define-volume-function cylinder (sample radius height &optional (normal +vy+))
   ;; The height is independent, so we can just move the disc
