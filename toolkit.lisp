@@ -26,3 +26,19 @@
 
 (defun unlist (a)
   (if (listp a) (first a) a))
+
+(defun plot-pdf (pdf &key (width (or *print-right-margin* 80)) (height 15)
+                          (left 0) (right 1) (bottom 0) (top 1))
+  (let ((plot-width (- width 2))
+        (plot-height (- height 2)))
+    (format T "~&~5,2@f~v@{▁~} ~%" top (- plot-width 4) 0)
+    (loop with samples = (loop for x from 0 below plot-width
+                               collect (funcall pdf (float (+ left (* (/ x (1- plot-width)) (- right left))) 0f0)))
+          for i downfrom height to 0
+          for threshold = (/ i plot-height)
+          do (format T "▕")
+             (dolist (sample samples)
+               (format T "~[ ~;▁~;▂~;▃~;▄~;▅~;▆~;▇~;█~]"
+                       (round (* 8 (min 1.0 (max 0.0 (* plot-height (- sample threshold))))))))
+             (format T "▏~%"))
+    (format T "~5,2@f/~5,2@f~v@{▔~}~5,2@f" bottom left (- plot-width 14) right)))
