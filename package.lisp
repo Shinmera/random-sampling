@@ -69,6 +69,7 @@
    #:normal
    #:surface-normal
    #:disc
+   #:ring
    #:box
    #:cylinder
    #:pill

@@ -435,6 +435,14 @@ NORMAL may be a normalised vector pointing in the UP direction of the
 disc's plane.
 
 See MAP-VOLUME-SAMPLES")
+
+  (function ring
+    "Samples a uniform ring.
+
+NORMAL may be a normalised vector pointing in the UP direction of the
+ring's plane.
+
+See MAP-VOLUME-SAMPLES")
   
   (function box
     "Samples a uniform box.

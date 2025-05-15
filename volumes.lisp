@@ -86,6 +86,11 @@
     (vsetf sample (* r (cos phi)) 0 (* r (sin phi)))
     (align-sample sample normal)))
 
+(define-volume-function ring (sample &optional (radius 1.0) (normal +vy+))
+  (let ((phi (r F-2PI)))
+    (vsetf sample (* radius (cos phi)) 0 (* radius (sin phi)))
+    (align-sample sample normal)))
+
 (define-volume-function box (sample bsize)
   ;; All axes are independent, so we just randomise a vec3
   (nv* (!vrand sample 0.0 bsize) 2))
