@@ -3,9 +3,9 @@
   :author "Yukari Hafner <shinmera@tymoon.eu>"
   :license "zlib"
   :description "Functions to generate random samples with various distributions"
-  :homepage "https://Shinmera.github.io/random-sampling/"
-  :bug-tracker "https://github.com/Shinmera/random-sampling/issues"
-  :source-control (:git "https://github.com/Shinmera/random-sampling.git")
+  :homepage "https://shinmera.com/docs/random-sampling/"
+  :bug-tracker "https://shinmera.com/project/random-sampling/issues"
+  :source-control (:git "https://shinmera.com/project/random-sampling.git")
   :serial T
   :components ((:file "package")
                (:file "toolkit")
@@ -22,9 +22,9 @@
   :author "Yukari Hafner <shinmera@tymoon.eu>"
   :license "zlib"
   :description "Tests for the random-sampling system"
-  :homepage "https://Shinmera.github.io/random-sampling/"
-  :bug-tracker "https://github.com/Shinmera/random-sampling/issues"
-  :source-control (:git "https://github.com/Shinmera/random-sampling.git")
+  :homepage "https://shinmera.com/docs/random-sampling/"
+  :bug-tracker "https://shinmera.com/project/random-sampling/issues"
+  :source-control (:git "https://shinmera.com/project/random-sampling.git")
   :serial T
   :components ((:file "test"))
   :depends-on (:random-sampling :parachute)
